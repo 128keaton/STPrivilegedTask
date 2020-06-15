@@ -293,6 +293,7 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     _terminationHandler = terminationHandler;
 }
 
+
 #pragma mark -
 
 + (BOOL)authorizationFunctionAvailable {
