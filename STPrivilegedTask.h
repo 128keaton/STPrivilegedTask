@@ -46,7 +46,7 @@ extern const OSStatus errAuthorizationFnNoLongerExists;
 @property (readonly) int terminationStatus;
 @property (nonatomic) AuthorizationRef authRef;
 
-@property (copy) void (^terminationHandler)(STPrivilegedTask *);
+@property (nonatomic, copy) void (^terminationHandler)(STPrivilegedTask *);
 
 + (BOOL)authorizationFunctionAvailable;
     
@@ -63,6 +63,7 @@ extern const OSStatus errAuthorizationFnNoLongerExists;
 - (OSStatus)launchWithAuthorization:(AuthorizationRef)authorization;
 - (void)terminate; // doesn't work
 - (void)waitUntilExit;
+- (void)setTerminationHandler:(void (^)(STPrivilegedTask *))terminationHandler;
 
 @end
 

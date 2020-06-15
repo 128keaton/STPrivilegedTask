@@ -289,6 +289,10 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     }
 }
 
+- (void)setTerminationHandler:(void (^)(STPrivilegedTask *))terminationHandler {
+    _terminationHandler = terminationHandler;
+}
+
 #pragma mark -
 
 + (BOOL)authorizationFunctionAvailable {
