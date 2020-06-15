@@ -44,6 +44,7 @@ extern const OSStatus errAuthorizationFnNoLongerExists;
 @property (readonly) BOOL isRunning;
 @property (readonly) pid_t processIdentifier;
 @property (readonly) int terminationStatus;
+@property (nonatomic) AuthorizationRef authRef;
 
 @property (copy) void (^terminationHandler)(STPrivilegedTask *);
 

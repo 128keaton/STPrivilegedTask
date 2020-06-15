@@ -155,32 +155,30 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     OSStatus err = noErr;
     const char *toolPath = [self.launchPath fileSystemRepresentation];
     
-    AuthorizationRef authorizationRef;
     AuthorizationItem myItems = { kAuthorizationRightExecute, strlen(toolPath), &toolPath, 0 };
     AuthorizationRights myRights = { 1, &myItems };
     AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
     
-    // Use Apple's Authentication Manager APIs to get an Authorization Reference
-    // These Apple APIs are quite possibly the most horrible of the Mac OS X APIs
-    
-    // Create authorization reference
-    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authorizationRef);
-    if (err != errAuthorizationSuccess) {
-        return err;
+    if (_authRef == nil) {
+        // Use Apple's Authentication Manager APIs to get an Authorization Reference
+        // These Apple APIs are quite possibly the most horrible of the Mac OS X APIs
+        
+        // Create authorization reference
+        err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &_authRef);
+        if (err != errAuthorizationSuccess) {
+            return err;
+        }
     }
     
     // Pre-authorize the privileged operation
-    err = AuthorizationCopyRights(authorizationRef, &myRights, kAuthorizationEmptyEnvironment, flags, NULL);
+    err = AuthorizationCopyRights(_authRef, &myRights, kAuthorizationEmptyEnvironment, flags, NULL);
     if (err != errAuthorizationSuccess) {
         return err;
     }
     
     // OK, at this point we have received authorization for
     // the task so we launch it.
-    err = [self launchWithAuthorization:authorizationRef];
-    
-    // Free the auth ref
-    AuthorizationFree(authorizationRef, kAuthorizationFlagDefaults);
+    err = [self launchWithAuthorization:_authRef];
     
     return err;
 }
@@ -313,6 +311,14 @@ static OSStatus (*_AuthExecuteWithPrivsFn)(AuthorizationRef authorization, const
     [commandDescription stringByAppendingFormat:@" (CWD:%@)", self.currentDirectoryPath];
     
     return [[super description] stringByAppendingFormat:@" %@", commandDescription];
+}
+
+- (void)dealloc
+{
+    // Free the auth ref
+    if (_authRef != nil) {
+       AuthorizationFree(_authRef, kAuthorizationFlagDefaults);
+    }
 }
 
 @end

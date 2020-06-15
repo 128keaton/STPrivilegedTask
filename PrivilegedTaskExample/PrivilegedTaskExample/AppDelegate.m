@@ -30,6 +30,7 @@
 
 @implementation AppDelegate
 
+
 - (BOOL)isValidShellCommand:(NSString *)cmd {
     NSArray *cmp = [cmd componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
@@ -91,7 +92,10 @@
         return;
     }
     
-    STPrivilegedTask *privilegedTask = [[STPrivilegedTask alloc] init];
+    if (_task == nil) {
+        _task = [[STPrivilegedTask alloc] init];
+    }
+    STPrivilegedTask *privilegedTask = _task;
     
     NSMutableArray *components = [[[self.commandTextField stringValue] componentsSeparatedByString:@" "] mutableCopy];
     NSString *launchPath = components[0];

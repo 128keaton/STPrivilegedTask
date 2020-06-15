@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "STPrivilegedTask"
-  s.version      = "1.0.8"
+  s.version      = "1.0.9"
   s.summary      = "An NSTask-like wrapper around the macOS Security Framework's AuthorizationExecuteWithPrivileges()"
   s.description  = "An NSTask-like wrapper around AuthorizationExecuteWithPrivileges() in the Security API to run shell commands with root privileges on macOS."
   s.homepage     = "http://github.com/sveinbjornt/STPrivilegedTask"

@@ -26,6 +26,7 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import "STPrivilegedTask.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
@@ -33,6 +34,7 @@
 @property (assign, nonatomic) IBOutlet NSTextField *commandTextField;
 @property (assign, nonatomic) IBOutlet NSTextView *outputTextField;
 @property (assign, nonatomic) IBOutlet NSTextField *exitStatusTextField;
+@property (nonatomic) STPrivilegedTask *task;
 
 - (IBAction)runNSTask:(id)sender;
 - (IBAction)runSTPrivilegedTask:(id)sender;
